@@ -1,9 +1,14 @@
-name: Python CI
+name: CI Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,8 +20,15 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Instalar pytest
-        run: pip install pytest
+      - name: Instalar dependencias
+        run: |
+          pip install pytest
 
       - name: Ejecutar pruebas
-        run: pytest
+        run: |
+          python -m pytest
+
+      - name: Build proyecto
+        run: |
+          mkdir artefactos
+          cp calculadora.py artefactos/
